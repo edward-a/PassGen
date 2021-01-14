@@ -8,7 +8,7 @@
       <Label Text="Password generator" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
     </Frame>
     <Label Text="Generate new password based on the master password." FontSize="Title" Padding="30,10,30,10"/>
-    <Label Text="This app uses .NET TripleDES to generate passwords based on unique id using the master password as a key. The source code is available at ..." FontSize="16" Padding="30,0,30,0"/>
+    <Label Text="This app uses .NET TripleDES to generate passwords based on unique id using the master password as a key. The source code is available at https://github.com/edward-a/PassGen" FontSize="16" Padding="30,0,30,0"/>
     <Grid Padding="30,24,30,0">
       <Grid.RowDefinitions>
         <RowDefinition/>
