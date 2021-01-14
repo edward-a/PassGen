@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PassGen.MainPage">
+
+  <StackLayout>
+    <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+      <Label Text="Password generator" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+    </Frame>
+    <Label Text="Generate new password based on the master password." FontSize="Title" Padding="30,10,30,10"/>
+    <Label Text="This app uses .NET TripleDES to generate passwords based on unique id using the master password as a key. The source code is available at ..." FontSize="16" Padding="30,0,30,0"/>
+    <Grid Padding="30,24,30,0">
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Label Grid.Row="0" Grid.Column="0" Text="Unique id:" VerticalOptions="Center"/>
+      <Entry x:Name="UniqueIdEntry" Grid.Row="0" Grid.Column="1" VerticalOptions="Center"/>
+      <Label Grid.Row="1" Grid.Column="0" Text="Master password and its checksum:" VerticalOptions="Center"/>
+      <Grid Grid.Row="1" Grid.Column="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Entry x:Name="MasterPasswordEntry" Grid.Column="0" IsPassword="True" VerticalOptions="Center" MaxLength="16"/>
+        <Entry x:Name="MasterPasswordChecksumEntry" Grid.Column="1" IsPassword="True" VerticalOptions="Center"/>
+        <Grid Grid.Column="2" VerticalOptions="Center" Padding="0" ColumnSpacing="0" RowSpacing="0" Margin="{Binding Margin, Source={x:Reference GeneratePasswordButton}}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <Button x:Name="NewMasterPasswordOptionsButton" Grid.Column="1" Text="▼" BorderWidth="0" Margin="0"/>
+          <Picker x:Name="NewMasterPasswordOptionsPicker" Grid.Column="0" Grid.ColumnSpan="2" Opacity="0" MinimumWidthRequest="0">
+            <Picker.Items>
+              <x:String>New (16)</x:String>
+              <x:String>New (15)</x:String>
+              <x:String>New (14)</x:String>
+              <x:String>New (12)</x:String>
+              <x:String>New (11)</x:String>
+              <x:String>New (10)</x:String>
+            </Picker.Items>
+            <Picker.SelectedIndex>0</Picker.SelectedIndex>
+          </Picker>
+          <Button x:Name="NewMasterPasswordButton" Grid.Column="0" Text="{Binding SelectedItem, Source={Reference NewMasterPasswordOptionsPicker}}" Clicked="NewMasterPasswordButton_Clicked" BorderWidth="0" Margin="0"/>
+        </Grid>
+      </Grid>
+      <Button Grid.Row="2" Grid.Column="1" x:Name="GeneratePasswordButton" Text="Generate" HorizontalOptions="End" VerticalOptions="Center" Clicked="GeneratePasswordButton_Clicked"/>
+      <Label Grid.Row="3" Grid.Column="0" Text="Generated password:" VerticalOptions="Center" Margin="0,20,0,0"/>
+      <Grid Grid.Row="3" Grid.Column="1" VerticalOptions="Center" Margin="0,20,0,0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Entry x:Name="NewPasswordEntry" Grid.Column="0" IsPassword="True" VerticalOptions="Center" IsReadOnly="True"/>
+        <Button x:Name="ShowNewPasswordButton" Grid.Column="1" Text="Show" VerticalOptions="Center" Clicked="ShowNewPasswordButton_Clicked"/>
+        <Button x:Name="CopyNewPasswordButton" Grid.Column="2" Text="Copy" VerticalOptions="Center" Clicked="CopyNewPasswordButton_Clicked"/>
+      </Grid>
+    </Grid>
+  </StackLayout>
+</ContentPage>
