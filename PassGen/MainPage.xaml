@@ -39,11 +39,8 @@
           <Button x:Name="NewMasterPasswordOptionsButton" Grid.Column="1" Text="▼" BorderWidth="0" Margin="0"/>
           <Picker x:Name="NewMasterPasswordOptionsPicker" Grid.Column="0" Grid.ColumnSpan="2" Opacity="0" MinimumWidthRequest="0">
             <Picker.Items>
-              <x:String>New (16)</x:String>
               <x:String>New (15)</x:String>
-              <x:String>New (14)</x:String>
               <x:String>New (12)</x:String>
-              <x:String>New (11)</x:String>
               <x:String>New (10)</x:String>
             </Picker.Items>
             <Picker.SelectedIndex>0</Picker.SelectedIndex>
@@ -58,10 +55,22 @@
           <ColumnDefinition/>
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Entry x:Name="NewPasswordEntry" Grid.Column="0" IsPassword="True" VerticalOptions="Center" IsReadOnly="True"/>
-        <Button x:Name="ShowNewPasswordButton" Grid.Column="1" Text="Show" VerticalOptions="Center" Clicked="ShowNewPasswordButton_Clicked"/>
-        <Button x:Name="CopyNewPasswordButton" Grid.Column="2" Text="Copy" VerticalOptions="Center" Clicked="CopyNewPasswordButton_Clicked"/>
+        <Picker x:Name="NewPasswordFormatPicker" Grid.Column="1">
+          <Picker.Items>
+            <x:String>Alphanumeric (15)</x:String>
+            <x:String>Alphanumeric (12)</x:String>
+            <x:String>Alphanumeric (10)</x:String>
+            <x:String>Numeric (20)</x:String>
+            <x:String>Numeric (17)</x:String>
+            <x:String>Numeric (15)</x:String>
+          </Picker.Items>
+          <Picker.SelectedIndex>0</Picker.SelectedIndex>
+        </Picker>
+        <Button x:Name="ShowNewPasswordButton" Grid.Column="2" Text="Show" VerticalOptions="Center" Clicked="ShowNewPasswordButton_Clicked"/>
+        <Button x:Name="CopyNewPasswordButton" Grid.Column="3" Text="Copy" VerticalOptions="Center" Clicked="CopyNewPasswordButton_Clicked"/>
       </Grid>
     </Grid>
   </StackLayout>

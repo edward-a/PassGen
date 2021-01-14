@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Numerics;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,8 @@ namespace PassGen
       InitializeComponent();
     }
 
+    static Regex rxPassLength = new Regex(@"\((\d+)\)");
+
     private void NewMasterPasswordButton_Clicked(object sender, EventArgs e) {
       MasterPasswordEntry.IsPassword = false;
       MasterPasswordChecksumEntry.IsPassword = false;
@@ -26,7 +29,6 @@ namespace PassGen
         (MasterPasswordChecksumEntry.Text == null || MasterPasswordChecksumEntry.Text == "")) {
       } else {
         int PassLength = 16;
-        var rxPassLength = new Regex(@"\((\d+)\)");
         var mPassLength = rxPassLength.Match((string)NewMasterPasswordOptionsPicker.SelectedItem);
         if (mPassLength.Success)
           PassLength = int.Parse(mPassLength.Groups[1].Value);
@@ -44,10 +46,18 @@ namespace PassGen
         ushort KeyChecksum;
         if (ushort.TryParse(MasterPasswordChecksumEntry.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out KeyChecksum) && Crc16Ccitt(Key) == KeyChecksum) {
           var TripleDES = new TripleDESCryptoServiceProvider() { Mode = CipherMode.ECB, Padding = PaddingMode.Zeros, Key = PadWithZeros(Key, 16) }.CreateEncryptor();
-          byte[] Input = Encoding.ASCII.GetBytes(UniqueIdEntry.Text);
+          byte[] Input = Encoding.ASCII.GetBytes(UniqueIdEntry.Text.Length >= 9 ? UniqueIdEntry.Text : UniqueIdEntry.Text + new string(' ', 9 - UniqueIdEntry.Text.Length));
           byte[] Output = TripleDES.TransformFinalBlock(Input, 0, Input.Length);
-          string Text = Convert.ToBase64String(Output);
-          NewPasswordEntry.Text = (char.ToUpper(Text[0]) + Text.Substring(1, Math.Min(Text.Length - 1, 15))).Trim('=') + "#";
+          int PassLength = 16;
+          var mPassLength = rxPassLength.Match((string)NewPasswordFormatPicker.SelectedItem);
+          if (mPassLength.Success)
+            PassLength = int.Parse(mPassLength.Groups[1].Value);
+          if (((string)NewPasswordFormatPicker.SelectedItem).StartsWith("Alphanumeric")) {
+            string Text = Convert.ToBase64String(Output);
+            NewPasswordEntry.Text = (char.ToUpper(Text[0]) + Text.Substring(1, Math.Min(Text.Length - 1, PassLength - 1))).Trim('=') + "#";
+          } else {
+            NewPasswordEntry.Text = new BigInteger(Output.Concat(new byte[1]).ToArray()).ToString().Substring(0, PassLength); // Add '00' byte to the beginning to make sure the number is unsigned
+          }
         } else {
           DisplayAlert("Error", "Invalid checksum for the master password!", "Ok");
         }
