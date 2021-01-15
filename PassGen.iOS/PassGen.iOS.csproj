@@ -123,13 +123,15 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0" />
+    <PackageReference Include="Xamarin.Forms">
+      <Version>4.8.0.1821</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\PassGen\PassGen.csproj">
-      <Project>{28D3B3FA-9457-40A6-BAFC-AFF3104FF537}</Project>
+      <Project>{449AC5BE-38DE-4DC2-9001-A04A498320ED}</Project>
       <Name>PassGen</Name>
     </ProjectReference>
   </ItemGroup>
